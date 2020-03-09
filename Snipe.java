@@ -66,12 +66,12 @@ public class Snipe
   
   public float GetFoodChance ()
   {
-    return foodChance;
+    return this.foodChance;
   }
 
   public float GetSurvivalChance ()
   {
-    return predatorSurvivalChance;
+    return this.predatorSurvivalChance;
   }
 
   public Snipe GenerateOffspring ()
@@ -93,12 +93,14 @@ public class Snipe
 
   public void LoseEnergy (int e)
   {
-   if ((this.energy - e) > 0 ){
-    this.energy -= e;
-   }
-   else{
-     isAlive = false;
-   }
+    if ((this.energy - e) > 0 ){
+      this.energy -= e;
+    }
+    else{
+      if (!(bodyIsFat && this.age < 1)){
+        isAlive = false;
+      }
+    }
   }
 
 }
