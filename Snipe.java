@@ -9,8 +9,8 @@ public class Snipe
   public boolean isAlive;
   public int age;
   public int energy;
+  public int energyRequired;
   
-  private int energyRequired;
   private float predatorSurvivalChance;
   private float foodChance;
   private Snipe offSpring;
@@ -93,14 +93,16 @@ public class Snipe
 
   public void LoseEnergy (int e)
   {
-    if ((this.energy - e) > 0 ){
-      this.energy -= e;
+    this.energy -=e;
+
+    if(this.energy <= 0){
+      this.isAlive = false;
     }
-    else{
-      if (!(bodyIsFat && this.age < 1)){
-        isAlive = false;
-      }
+
+    if(this.energyRequired > this.energy && this.age > 0){
+      this.isAlive = false;
     }
+
   }
 
 }

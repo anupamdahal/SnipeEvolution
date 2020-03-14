@@ -9,9 +9,9 @@ public class Simulation
     private int numPredators;
     private int numSnoozeberries;
     
-    private List <DeathReport> deaths;
-    private List <Snipe> snipes;
-    private List <Snipe> offSprings;
+    private ArrayList <DeathReport> deaths;
+    private ArrayList <Snipe> snipes;
+    private ArrayList <Snipe> offSprings;
     
     Random random = new Random();
     
@@ -31,27 +31,69 @@ public class Simulation
 
     public void RunNewSimulation(){
         
+        Snipe subject, previous;
+        previous = new Snipe(random.nextBoolean(),
+                            random.nextBoolean(),
+                            random.nextBoolean(),
+                            random.nextBoolean());
+
         initSimulation();
         
         for (int i = 0; i<numYears; i++){
 
-            this.snipes.addAll(offSprings);
-            offSprings.clear();
+            for (int j = 0; j< snipes.size(); j++){
 
-            for (int j = 0; j<snipes.size(); j++){
-
+                subject = snipes.get(j);
+                
                 //find food
+                if (random.nextDouble() < subject.GetFoodChance()){
+                    this.numSnoozeberries -= 1;
+                    subject.energy = subject.energyRequired + 1;
+                }
+                
                 //avoid predetor
+                if (random.nextDouble() < subject.GetSurvivalChance() ){
+                    subject.LoseEnergy(1);
+                }
+                else{
+                    subject.isAlive = false;
+                }
 
                 //offspring
+                if (subject.isAlive && j%2 == 1){
+                    int k = j;
+                    while (k<0){
+                        previous = snipes.get(k);
+                        if (previous.isAlive){
+                            break;
+                        }
+                        else{
+                            k--;
+                        }
+                    }
+
+                    if(random.nextBoolean()){
+                        this.offSprings.add(previous.GenerateOffspring());
+                    }
+                    else{
+                        this.offSprings.add(subject.GenerateOffspring());
+                    }
+                }
 
                 //increament age
+                subject.age += 1;
 
                 //lose energy
+                subject.LoseEnergy(subject.energyRequired);
 
             }
 
+            this.snipes.addAll(offSprings);
+            Collections.shuffle(snipes);
+            offSprings.clear();
+        
         }
+
 
         return;
     }
