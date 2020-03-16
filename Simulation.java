@@ -8,6 +8,7 @@ public class Simulation
     private int numSnipes;
     private int numPredators;
     private int numSnoozeberries;
+
     
     private ArrayList <DeathReport> deaths;
     private ArrayList <Snipe> snipes;
@@ -22,7 +23,7 @@ public class Simulation
         
         this.numSnipes = 300;
         this.numPredators = 200;
-        this.numSnoozeberries = 300; 
+        this.numSnoozeberries = 200; 
         
         this.deaths = new ArrayList<DeathReport>();
         this.snipes = new ArrayList<Snipe>();
@@ -31,15 +32,21 @@ public class Simulation
 
     public void RunNewSimulation(){
         
-        Snipe subject, previous;
-        previous = new Snipe(random.nextBoolean(),
-                            random.nextBoolean(),
-                            random.nextBoolean(),
-                            random.nextBoolean());
-
+        // CauseOfDeath starvation = CauseOfDeath.Starvation;
+        // CauseOfDeath predation = CauseOfDeath.Predation;
+        
         initSimulation();
         
+        Snipe subject, previous;
+        previous = new Snipe(random.nextBoolean(),
+                             random.nextBoolean(),
+                             random.nextBoolean(),
+                             random.nextBoolean());
+        
+        DeathReport deathReport = new DeathReport(0,0, CauseOfDeath.Predation);
+        
         for (int i = 0; i<numYears; i++){
+
 
             for (int j = 0; j< snipes.size(); j++){
 
@@ -48,15 +55,27 @@ public class Simulation
                 //find food
                 if (random.nextDouble() < subject.GetFoodChance()){
                     this.numSnoozeberries -= 1;
-                    subject.energy = subject.energyRequired + 1;
+                    subject.energy += 4;
                 }
                 
                 //avoid predetor
-                if (random.nextDouble() < subject.GetSurvivalChance() ){
-                    subject.LoseEnergy(1);
-                }
-                else{
-                    subject.isAlive = false;
+                if ( random.nextBoolean() || (random.nextBoolean() && random.nextBoolean())){
+                    
+                    if (random.nextDouble() < subject.GetSurvivalChance() ){
+                        subject.LoseEnergy(1);
+                    }
+                    else{
+                        
+                        subject.isAlive = false;
+                        
+                        deathReport.age = subject.age;
+                        deathReport.year = i;
+                        deathReport.cause = CauseOfDeath.Predation;
+                        
+                        deaths.add(deathReport);
+                        snipes.remove(j);
+
+                    }
                 }
 
                 //offspring
@@ -72,25 +91,54 @@ public class Simulation
                         }
                     }
 
-                    if(random.nextBoolean()){
-                        this.offSprings.add(previous.GenerateOffspring());
+                    //only if a living mate is found
+                    if (k != 0){
+                        
+                        if(random.nextBoolean()){
+                            this.offSprings.add(previous.GenerateOffspring());
+                        }
+                        else{
+                            this.offSprings.add(subject.GenerateOffspring());
+                        }
                     }
-                    else{
-                        this.offSprings.add(subject.GenerateOffspring());
-                    }
-                }
 
+                }
+            
                 //increament age
                 subject.age += 1;
 
                 //lose energy
                 subject.LoseEnergy(subject.energyRequired);
 
+                if (!subject.isAlive){
+                    
+                    deathReport.age = subject.age;
+                    deathReport.year = i;
+                    deathReport.cause = CauseOfDeath.Starvation;
+                    
+                    deaths.add(deathReport);
+                    snipes.remove(j);
+
+                }
+
+                
             }
+
 
             this.snipes.addAll(offSprings);
             Collections.shuffle(snipes);
             offSprings.clear();
+
+            if(this.env.isPlentiful){
+                this.numSnoozeberries += 400;
+            }
+            else{
+                this.numSnoozeberries += 200;
+            }
+
+            if (this.numSnoozeberries > 600 ){
+                this.numSnoozeberries = 600;
+            }
         
         }
 
@@ -99,16 +147,25 @@ public class Simulation
     }
 
     public String SummarizeDeaths(){
+
+        int noStarvation = 0;
+        int noPredation = 0;
+        String report;
         
         Iterator<DeathReport> itr = this.deaths.iterator();
         while(itr.hasNext()){
-            
+            if(itr.next().cause == CauseOfDeath.Predation){
+                noStarvation += 1;
+            }else{
+                noPredation += 1;
+            }
         }
-        return null;
-    }
 
-    public DeathReport GetDeathReport(){
-        return null;
+        report = "No. of Deaths = "+ this.deaths.size();
+        report += ". No of Deaths due to starvation = " + noStarvation;
+        report += ". No of Death due to predation = " + noPredation + ".";
+
+        return report;
     }
     
     private void initSimulation(){
@@ -119,7 +176,7 @@ public class Simulation
         }
         
         if (this.env.isPlentiful){
-            this.numSnoozeberries = 600;
+            this.numSnoozeberries = 400;
         }
     
         for(int i = 0; i<numSnipes; i++){
