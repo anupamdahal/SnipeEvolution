@@ -3,7 +3,7 @@ import java.util.*;
 public class Simulation
 {
     public int numYears;
-    public Enviornment env;
+    public Environment env;
     
     private int numSnipes;
     private int numPredators;
@@ -16,7 +16,7 @@ public class Simulation
     
     Random random = new Random();
     
-    public Simulation(int years, Enviornment environment){
+    public Simulation(int years, Environment environment){
         
         this.numYears = years;
         this.env = environment;
