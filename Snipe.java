@@ -30,6 +30,9 @@ public class Snipe
     this.energy = 2;
     this.age = 0;
 
+    this.predatorSurvivalChance = (float) 0.5;
+    this.foodChance = (float) 0.5;
+
     if (this.beakIsLong){
       this.predatorSurvivalChance -= 0.05;
       this.foodChance += 0.1;
@@ -98,7 +101,7 @@ public class Snipe
     if(this.energy <= 0){
       this.isAlive = false;
     }
-
+    
     if(this.energyRequired > this.energy && this.age > 0){
       this.isAlive = false;
     }
@@ -106,3 +109,4 @@ public class Snipe
   }
 
 }
+

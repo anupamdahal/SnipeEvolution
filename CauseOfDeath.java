@@ -1,4 +1,4 @@
 public enum CauseOfDeath {
-	Starvation, Predation;
+	Predation, Starvation;
 	
 }
