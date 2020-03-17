@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 public class Simulation
@@ -126,7 +127,6 @@ public class Simulation
             }
 
             replinish();        
-            System.out.println(this.snipes.size());   
         }
 
 

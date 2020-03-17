@@ -2,25 +2,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.layout.*;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
+
 public class Menu {
 	 private ArrayList <String> DeathReports;
 	 private boolean plentiful,dangerous;
@@ -59,91 +41,7 @@ public class Menu {
 			}
 			
 	 }
-	 /**
-	  * Method to display Death report on a chart
-	  */
-	/*@Override
-	    public void start(final Stage stage) {
-	        stage.setTitle("Project 2");
 	 
-	        /**
-	         * label
-	         */
-	       /* final Label titleLabel = new Label("Snipe Death Report"); //  must include your name.
-	        titleLabel.setFont(Font.font("Verdana",48));
-	        titleLabel.setTextFill(Color.CORNFLOWERBLUE);
-	        
-	        /**
-	         * button 
-	         */
-	       /* final Button button = new Button("Death Report");
-	        button.setFont(Font.font("Verdana",20)); 
-	        button.setTextFill(Color.TEAL);
-	        
-	        /**
-	         * x and y axis for graph
-	         */
-	      /*  final NumberAxis xAxis = new NumberAxis();
-	        xAxis.setLabel("Snipes");
-	        final NumberAxis yAxis = new NumberAxis();             
-	        yAxis.setLabel("Deaths");
-	        XYChart.Series series = new XYChart.Series();
-	       
-	        /**
-	         * chart
-	         */
-	    /*   final LineChart lineChart = new LineChart(xAxis, yAxis);
-	       
-	    
-	        /**
-	         * panes
-	         */ 
-	        
-	     /*   BackgroundFill background_fill = new BackgroundFill(Color.LAVENDER, CornerRadii.EMPTY, Insets.EMPTY); 
-
-	        Background background = new Background(background_fill); 
-	        final BorderPane topLablePane = new BorderPane();
-	        topLablePane.setCenter(titleLabel);
-	        
-	        final GridPane buttonPane = new GridPane();        
-	        buttonPane.setHgap(5);
-	        buttonPane.setConstraints(button,78,0);
-	        buttonPane.getChildren().add(button);
-
-	        final GridPane chartGridPane = new GridPane();
-	        GridPane.setConstraints(lineChart,30,0);
-	        chartGridPane.setHgap(5);
-	        chartGridPane.setVgap(0);
-	        chartGridPane.getChildren().addAll(lineChart);
-	       
-	        final Pane rootGroup = new VBox(100);
-	        rootGroup.getChildren().addAll(topLablePane,chartGridPane,buttonPane);
-	        rootGroup.setBackground(background);
-	        /**
-	         * scenes
-	         */
-	      /*  Scene scene = new Scene(rootGroup, 1000, 1000); 
-	       
-	        lineChart.prefWidthProperty().bind(scene.widthProperty().multiply(0.6));
-	        lineChart.prefHeightProperty().bind(scene.heightProperty().multiply(0.6));
-	        
-	       
-	        
-	        stage.setScene(scene); 
-	        stage.show();
-	        
-	        button.setOnAction(
-	            (final ActionEvent e) -> { 
-	            
-	            
-	            	
-	            
-	            
-	        });
-	      
-	     
-	    }
-	*/ 
 	public static void main(String[] args){
 		Scanner scan2=new Scanner(System.in);
 		Menu menu=new Menu();
