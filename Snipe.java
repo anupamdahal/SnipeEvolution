@@ -1,5 +1,9 @@
 import java.util.*;
-
+/*
+This class models a fictious airal species snipes given various paramerter
+These parameter determines its chances of finding food and survaival
+@author Anupam Dahal, Torunima Taposhi
+ */
 public class Snipe
 {
   public boolean beakIsLong;
@@ -10,19 +14,25 @@ public class Snipe
   public int age;
   public int energy;
   public int energyRequired;
-  
+
   private float predatorSurvivalChance;
   private float foodChance;
   private Snipe offSpring;
 
   Random random = new Random();
-
+  /**
+   * This is a class that constructs an arial species Snipes given following params
+   * @param longbeak  boolean
+   * @param fatbody   boolean
+   * @param longflier boolean
+   * @param cgenes    boolean
+   */
   public Snipe(boolean longbeak, boolean fatbody, boolean longflier, boolean cgenes)
   {
-    
+
     this.isAlive = true;
     this.energyRequired = 2;
-    
+
     this.beakIsLong = longbeak;
     this.bodyIsFat = fatbody;
     this.longDistanceFlier = longflier;
@@ -53,7 +63,7 @@ public class Snipe
       if (random.nextBoolean() && random.nextBoolean()){
         this.energyRequired = 3;
       }
-      
+
     }
 
     if (this.longDistanceFlier){
@@ -64,19 +74,31 @@ public class Snipe
       this.predatorSurvivalChance += 0.2;
       this.foodChance -= 0.1;
     }
-  
+
   }
-  
+
+  /**
+   * Getter for chances of finding food
+   * @return float
+   */
   public float GetFoodChance ()
   {
     return this.foodChance;
   }
 
+  /**
+   * Getter of survaival Chances
+   * @return float
+   */
   public float GetSurvivalChance ()
   {
     return this.predatorSurvivalChance;
   }
 
+  /**
+   * Initializes a new snipes as the offSpring of a given snipe pairs.
+   * @return Snipe
+   */
   public Snipe GenerateOffspring ()
   {
     if (this.conservativeGenes){
@@ -94,6 +116,10 @@ public class Snipe
     return this.offSpring;
   }
 
+ /**
+ * Decreases a snipe's energy by the given amount
+ * @param e int
+ */
   public void LoseEnergy (int e)
   {
     this.energy -=e;
@@ -101,7 +127,7 @@ public class Snipe
     if(this.energy <= 0){
       this.isAlive = false;
     }
-    
+
     if(this.energyRequired > this.energy && this.age > 0){
       this.isAlive = false;
     }
@@ -109,4 +135,3 @@ public class Snipe
   }
 
 }
-
